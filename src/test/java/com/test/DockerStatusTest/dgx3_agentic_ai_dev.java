@@ -17,12 +17,12 @@ public class dgx3_agentic_ai_dev {
         String vmIpAddress = "172.20.23.156";
         String username = "appUser";
         String password = "Brain@123";
-        String containerId = "10dc9b545201";
+        String containerName = "agentic_ai_dev";
 
-        System.out.println("agentic_ai_dev Docker ID = " + containerId);
+        System.out.println("agentic_ai_dev Docker = " + containerName);
 
-        if (containerId.isEmpty()) {
-            System.out.println("Container ID is required.");
+        if (containerName.isEmpty()) {
+            System.out.println("Container name is required.");
             return;
         }
 
@@ -33,9 +33,9 @@ public class dgx3_agentic_ai_dev {
             session.setConfig("StrictHostKeyChecking", "no");
             session.connect();
 
-            // Execute the docker inspect command to check the container's status
+            // Execute the docker inspect command
             ChannelExec channel = (ChannelExec) session.openChannel("exec");
-            channel.setCommand("docker inspect --format='{{.State.Status}}' " + containerId);
+            channel.setCommand("docker inspect --format='{{.State.Status}}' " + containerName);
             channel.setInputStream(null);
             channel.setErrStream(System.err);
             BufferedReader reader = new BufferedReader(new InputStreamReader(channel.getInputStream()));
@@ -54,7 +54,6 @@ public class dgx3_agentic_ai_dev {
             channel.disconnect();
             session.disconnect();
 
-            // If container is not running, send alert
             if (!isRunning) {
                 sendEmailAlert("Hi,\n\n🚨 This is agentic_ai_dev Docker. I am currently down. Kindly restart the container at your earliest convenience.");
                 assert false : "Container is not in the expected state.";
@@ -98,8 +97,6 @@ public class dgx3_agentic_ai_dev {
         try {
             Message message = new MimeMessage(mailSession);
             message.setFrom(new InternetAddress(from, "Docker Monitor"));
-
-            // Convert arrays to comma-separated strings
             message.setRecipients(
                 Message.RecipientType.TO,
                 InternetAddress.parse(String.join(",", to))
@@ -119,4 +116,3 @@ public class dgx3_agentic_ai_dev {
         }
     }
 }
-
