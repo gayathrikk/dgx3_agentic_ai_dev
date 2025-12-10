@@ -15,8 +15,8 @@ public class dgx3_agentic_ai_dev {
     public void agentic_ai_dev() {
 
         String vmIpAddress = "172.20.23.156";
-        String username = "appUser";
-        String password = "Brain@123";
+        String username = "hbp";
+        String password = "hbpsgbclab@123";
         String containerName = "agentic_ai_dev";
 
         System.out.println("agentic_ai_dev Docker = " + containerName);
@@ -116,3 +116,4 @@ public class dgx3_agentic_ai_dev {
         }
     }
 }
+
